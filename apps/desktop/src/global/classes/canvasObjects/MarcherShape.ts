@@ -291,6 +291,7 @@ export class MarcherShape extends StaticMarcherShape {
         points?: ShapePoint[];
     }) {
         try {
+            console.log("Points", points);
             // If points are provided, use them to create the SVG path
             // Otherwise, fall back to creating a simple line
             const svgPath = points

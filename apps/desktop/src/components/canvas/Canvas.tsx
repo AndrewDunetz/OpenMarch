@@ -25,6 +25,7 @@ import { useMarcherPages, useUpdateMarcherPages } from "@/hooks/queries";
 import CollisionMarker from "@/global/classes/canvasObjects/CollisionMarker";
 import { useCollisionStore } from "@/stores/CollisionStore";
 import { setCanvasStore } from "@/stores/CanvasStore";
+import CircleListeners from "./listeners/CircleListeners";
 
 /**
  * The field/stage UI of OpenMarch
@@ -496,6 +497,11 @@ export default function Canvas({
             switch (alignmentEvent) {
                 case "line":
                     canvas.setListeners(new LineListeners({ canvas: canvas }));
+                    break;
+                case "circle":
+                    canvas.setListeners(
+                        new CircleListeners({ canvas: canvas }),
+                    );
                     break;
                 default:
                     canvas.setListeners(

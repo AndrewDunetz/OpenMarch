@@ -90,6 +90,19 @@ function MarcherEditor() {
         );
     }, [selectedMarchers, spmsForThisPage]);
 
+    const createCircleIsVisible = useCallback(() => {
+        const marcherIdsWithShapes = new Set<number>(
+            spmsForThisPage.map((spm) => spm.marcher_id),
+        );
+        const selectedMarcherIds = selectedMarchers.map(
+            (marcher) => marcher.id,
+        );
+
+        return !selectedMarcherIds.some((marcherId) =>
+            marcherIdsWithShapes.has(marcherId),
+        );
+    }, [selectedMarchers, spmsForThisPage]);
+
     useEffect(() => {
         setRCoords(undefined);
         setStepSize(undefined);
@@ -296,6 +309,23 @@ function MarcherEditor() {
                                         }
                                     >
                                         <T keyName="inspector.marcher.createLine" />
+                                    </RegisteredActionButton>
+                                )}
+                            {selectedMarchers.length >= 3 &&
+                                createCircleIsVisible() && (
+                                    <RegisteredActionButton
+                                        className={clsx(
+                                            getButtonClassName({
+                                                variant: "primary",
+                                                size: "compact",
+                                            }),
+                                            "enabled:hover:text-text-invert",
+                                        )}
+                                        registeredAction={
+                                            RegisteredActionsObjects.alignmentEventCircle
+                                        }
+                                    >
+                                        <T keyName="inspector.marcher.createCircle" />
                                     </RegisteredActionButton>
                                 )}
                             {/* Add rotation controls */}

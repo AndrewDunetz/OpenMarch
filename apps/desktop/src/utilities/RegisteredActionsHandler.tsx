@@ -27,6 +27,8 @@ import {
     useMarcherPages,
     useUpdateMarcherPages,
 } from "@/hooks/queries";
+import { ShapePoint } from "@/global/classes/canvasObjects/ShapePoint";
+import { SvgCommandEnum } from "@/global/classes/canvasObjects/SvgCommand";
 
 /**
  * The interface for the registered actions. This exists so it is easy to see what actions are available.
@@ -82,6 +84,7 @@ export enum RegisteredActionsEnum {
     cancelAlignmentUpdates = "cancelAlignmentUpdates",
     alignmentEventDefault = "alignmentEventDefault",
     alignmentEventLine = "alignmentEventLine",
+    alignmentEventCircle = "alignmentEventCircle",
 
     // Select
     selectAllMarchers = "selectAllMarchers",
@@ -466,6 +469,11 @@ export const RegisteredActionsObjects: {
         descKey: "actions.cursor.lineMode",
         enumString: "alignmentEventLine",
         keyboardShortcut: new KeyboardShortcut({ key: "l" }),
+    }),
+    alignmentEventCircle: new RegisteredAction({
+        descKey: "actions.cursor.circleMode",
+        enumString: "alignmentEventCircle",
+        keyboardShortcut: new KeyboardShortcut({ key: "c" }),
     }),
 
     // Select
@@ -998,6 +1006,11 @@ function RegisteredActionsHandler() {
                         start: firstMarcherPage,
                         end: lastMarcherPage,
                         pageId: selectedPage.id,
+                        points: alignmentEventNewMarcherPages.map((mp) =>
+                            ShapePoint.createShapePoint(SvgCommandEnum.CIRCLE, [
+                                { x: mp.x as number, y: mp.y as number },
+                            ]),
+                        ), // All marcher pages should have x and y defined at this point
                     });
                     resetAlignmentEvent();
                     break;
@@ -1014,6 +1027,18 @@ function RegisteredActionsHandler() {
                         break;
                     }
                     setAlignmentEvent("line");
+                    setAlignmentEventMarchers(selectedMarchers);
+                    setSelectedMarchers([]);
+                    break;
+                }
+                case RegisteredActionsEnum.alignmentEventCircle: {
+                    if (selectedMarchers.length < 6) {
+                        console.error(
+                            "Not enough marchers selected to create a circle. Need at least 6 marchers selected.",
+                        );
+                        break;
+                    }
+                    setAlignmentEvent("circle");
                     setAlignmentEventMarchers(selectedMarchers);
                     setSelectedMarchers([]);
                     break;

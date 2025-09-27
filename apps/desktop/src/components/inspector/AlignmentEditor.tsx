@@ -13,7 +13,8 @@ export default function AlignmentEditor() {
     } = useAlignmentEventStore();
 
     return (
-        alignmentEvent === "line" && (
+        alignmentEvent === "line" ||
+        (alignmentEvent === "circle" && (
             <InspectorCollapsible
                 defaultOpen
                 title={`Alignment`}
@@ -63,6 +64,6 @@ export default function AlignmentEditor() {
                         .join(", ")}
                 </p>
             </InspectorCollapsible>
-        )
+        ))
     );
 }

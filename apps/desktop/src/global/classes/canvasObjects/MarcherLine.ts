@@ -166,6 +166,48 @@ export default class MarcherLine extends fabric.Line {
     };
 
     /**
+     * Evenly distributes coordinates along the circle from start to finish. Distributes in the order of the coordinates array.
+     *
+     * @param coordinates The coordinates to distribute
+     * @returns The coordinates distributed along the circle from start to finish
+     */
+    distributeMarchersCircle = <T extends CoordinateLike>(
+        coordinates: T[],
+    ): T[] => {
+        if (
+            this.x1 === undefined ||
+            this.y1 === undefined ||
+            this.x2 === undefined ||
+            this.y2 === undefined
+        ) {
+            console.error(
+                "Line coordinates not set. Cannot distribute marchers",
+            );
+            return coordinates;
+        }
+
+        const cx = (this.x1 + this.x2) / 2;
+        const cy = (this.y1 + this.y2) / 2;
+        const distance = Math.sqrt(
+            Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2),
+        );
+        const r = distance / 2;
+
+        const points = [];
+        for (let i = 0; i < coordinates.length; i++) {
+            const angle = (i / coordinates.length) * 2 * Math.PI; // Angle in radians
+            const x = cx + r * Math.cos(angle);
+            const y = cy + r * Math.sin(angle);
+            points.push({ x, y });
+        }
+        return points.map((point, index) => ({
+            ...coordinates[index],
+            x: point.x,
+            y: point.y,
+        })) as T[];
+    };
+
+    /**
      *
      * @param pointOne The first point in the line {x1, y1}. If not provided, it will not be modified/rounded
      * @param pointTwo The second point in the line {x2, y2}. If not provided, it will not be modified/rounded

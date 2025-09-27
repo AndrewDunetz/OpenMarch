@@ -27,6 +27,7 @@
             "setSelectedToPreviousSuccess": "Successfully set {{count}} marcher coordinate{{count, plural, one {} other {s}}} on page {{currentPage}} to the coordinates of the previous page {{previousPage}}"
         },
         "cursor": {
+            "circleMode": "Create a circle out of the selected marchers",
             "defaultMode": "Set cursor mode to default",
             "lineMode": "Create a line out of the selected marchers"
         },
@@ -398,6 +399,7 @@
             "drawLine": "Draw a line."
         },
         "marcher": {
+            "createCircle": "Create Circle",
             "createLine": "Create Line",
             "drillNumber": "Drill Number",
             "errorLoadingCoords": "Error loading coordinates",

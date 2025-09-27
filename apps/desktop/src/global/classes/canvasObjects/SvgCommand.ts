@@ -15,6 +15,7 @@ export enum SvgCommandEnum {
     QUADRATIC = "Q",
     CUBIC = "C",
     CLOSE = "Z",
+    CIRCLE = "CI",
 }
 
 export const SvgCommands: {
@@ -45,10 +46,16 @@ export const SvgCommands: {
         command: SvgCommandEnum.CLOSE,
         numberOfCoordinates: 0,
     },
+    [SvgCommandEnum.CIRCLE]: {
+        readableDescription: "Circle",
+        command: SvgCommandEnum.CIRCLE,
+        numberOfCoordinates: 1,
+    },
 };
 
 export const secondSegmentSvgCommands: SvgCommand[] = [
     SvgCommands[SvgCommandEnum.LINE],
     SvgCommands[SvgCommandEnum.QUADRATIC],
     SvgCommands[SvgCommandEnum.CUBIC],
+    SvgCommands[SvgCommandEnum.CIRCLE],
 ];
